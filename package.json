@@ -1,22 +1,32 @@
 {
   "name": "nodejs-vitest-demo",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.0.1",
+  "description": "Node.js complete test environment using TypeScript, Prisma, PostgreSQL and Vitest.",
   "main": "index.js",
   "scripts": {
     "start:dev": "tsx watch src/index.ts",
-    "start": "node build/server.js",
+    "start": "node build/index.js",
     "build": "tsup src --out-dir build",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "test:create-prisma-environment": "npm link ./prisma/vitest-environment-prisma",
+    "test:install-prisma-environment": "npm link vitest-environment-prisma",
+    "pretest:e2e": "run-s test:create-prisma-environment test:install-prisma-environment",
+    "test:e2e": "vitest run -c vitest.e2e.config.ts",
+    "test:e2e:watch": "vitest -c vitest.e2e.config.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/express": "^4.17.21",
     "@types/node": "^20.10.5",
+    "@types/supertest": "^6.0.2",
+    "@vitest/coverage-v8": "^1.1.0",
+    "npm-run-all": "^4.1.5",
     "prisma": "^5.7.1",
+    "supertest": "^6.3.3",
     "tsup": "^8.0.1",
     "tsx": "^4.7.0",
     "typescript": "^5.3.3",
@@ -24,6 +34,8 @@
     "vitest": "^1.1.0"
   },
   "dependencies": {
-    "@prisma/client": "5.7.1"
+    "@prisma/client": "5.7.1",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2"
   }
 }

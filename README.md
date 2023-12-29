@@ -1,3 +1,17 @@
+<h1 align="center">Welcome to nodejs-vitest-demo 👋</h1>
+<p>
+  <img alt="Version" src="https://img.shields.io/badge/version-0.0.1-blue.svg?cacheSeconds=2592000" />
+  <a href="https://github.com/Keekuun/nodejs-vitest-demo" target="_blank">
+    <img alt="Documentation" src="https://img.shields.io/badge/documentation-yes-brightgreen.svg" />
+  </a>
+  <a href="https://blog.zkkysqs.top" target="_blank" style="display:inline-flex; align-items: center; padding: 0 4px; height: 20px; background: #de1570; border: 1px solid #de1570;color: #fff; border-radius:4px;">
+    <img alt="Blog: https://blog.zkkysqs.top" src="https://blog.zkkysqs.top/images/avatar.png" width="16px"/>
+    <span style="color: #fff; font-size: 14px">https://blog.zkkysqs.top</span>
+  </a>
+</p>
+
+> Node.js complete test environment using TypeScript, Prisma, PostgreSQL and Vitest.
+
 # nodejs-vitest-demo
 learn from [here](https://www.douglasgoulart.com/writings/creating-a-complete-nodejs-test-environment-with-vitest-postgresql-and-prisma)
 
