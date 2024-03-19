@@ -12,9 +12,9 @@ class DoubleLinkNode {
   }
   
   class LRUCache {
-    private capacity: number
+    private readonly capacity: number
     private cache: Map<any, any>
-    private dummy: DoubleLinkNode
+    private readonly dummy: DoubleLinkNode
   
     constructor(capacity: number) {
       // 容量
