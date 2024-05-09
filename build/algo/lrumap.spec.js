@@ -1,62 +1,71 @@
-export class LRUMap<K, V> {
-  private readonly _cache: Map<K, V>;
+"use strict";
 
+// src/algo/lrumap.ts
+var LRUMap = class {
   // https://kendaleiv.com/typescript-constructor-assignment-public-and-private-keywords/
-  public constructor(private readonly _maxSize: number) {
-    this._cache = new Map<K, V>();
+  constructor(_maxSize) {
+    this._maxSize = _maxSize;
+    this._cache = /* @__PURE__ */ new Map();
   }
-
+  _cache;
   /** Get the current size of the cache */
-  public get size(): number {
+  get size() {
     return this._cache.size;
   }
-
   /** Get an entry or undefined if it was not in the cache. Re-inserts to update the recently used order */
-  public get(key: K): V | undefined {
+  get(key) {
     const value = this._cache.get(key);
-    if (value === undefined) {
-      return undefined;
+    if (value === void 0) {
+      return void 0;
     }
-    // Remove and re-insert to update the order
     this._cache.delete(key);
     this._cache.set(key, value);
     return value;
   }
-
   /** Insert an entry and evict an older entry if we've reached maxSize */
-  public set(key: K, value: V): void {
+  set(key, value) {
     if (this._cache.size >= this._maxSize) {
-      // keys() returns an iterator in insertion order so keys().next() gives us the oldest key
       this._cache.delete(this._cache.keys().next().value);
     }
     this._cache.set(key, value);
   }
-
   /** Remove an entry and return the entry if it was in the cache */
-  public remove(key: K): V | undefined {
+  remove(key) {
     const value = this._cache.get(key);
     if (value) {
       this._cache.delete(key);
     }
     return value;
   }
-
   /** Clear all entries */
-  public clear(): void {
+  clear() {
     this._cache.clear();
   }
-
   /** Get all the keys */
-  public keys(): Array<K> {
+  keys() {
     return [...this._cache.keys()];
   }
-
   /** Get all the values */
-  public values(): Array<V> {
+  values() {
     return [...this._cache.values()];
   }
-
-  public entries(): Array<[K, V]> {
+  entries() {
     return [...this._cache.entries()];
   }
-}
+};
+
+// src/algo/lrumap.spec.ts
+test("basic lrumap test", () => {
+  const lru = new LRUMap(3);
+  lru.set(1, 1);
+  lru.set(2, 2);
+  lru.set(3, 3);
+  lru.set(4, 4);
+  lru.remove(2);
+  lru.set("a", "a");
+  console.log(lru);
+  console.log(lru.keys());
+  console.log(lru.values());
+  console.log(lru.entries());
+  expect(lru.size).toBe(3);
+});

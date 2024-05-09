@@ -55,6 +55,8 @@ test(`MySymbol('a').valueOf()`, () => {
 test(`MySymbol.for('a')`, () => {
   expect(MySymbol.for('a') === MySymbol('a')).toBe(false)
   expect(MySymbol.for('a') === MySymbol.for('a')).toBe(true)
+  expect(MySymbol.for('b') === MySymbol.for('b')).toBe(true)
+  expect(MySymbol.for('a') === MySymbol.for('b')).toBe(false)
 })
 
 

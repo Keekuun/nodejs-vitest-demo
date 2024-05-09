@@ -57,7 +57,8 @@ class MyPromise<T> {
       }
     }
 
-    setTimeout(run, 0);
+    // setTimeout(run, 0);
+    queueMicrotask(run);
   }
 
   private reject(reason?: any) {
@@ -76,7 +77,8 @@ class MyPromise<T> {
       this.onRejectedCallbacks = [];
     }
 
-    setTimeout(run, 0);
+    // setTimeout(run, 0);
+    queueMicrotask(run);
   }
 
   private fulfill(value: T) {
@@ -95,7 +97,8 @@ class MyPromise<T> {
       this.onFulfilledCallbacks = [];
     }
 
-    setTimeout(run, 0);
+    // setTimeout(run, 0);
+    queueMicrotask(run);
   }
 
   then<TResult1 = T, TResult2 = never>(
@@ -271,7 +274,7 @@ MyPromise.allSettled([])
 Promise.reject([])
 MyPromise.reject([])
 
-Promise.any([]);
+// Promise.any([]);
 MyPromise.any([]);
 
 // https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Promise/withResolvers
