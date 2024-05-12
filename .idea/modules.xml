@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../keekuun.github.io/.idea/keekuun.github.io.iml" filepath="$PROJECT_DIR$/../keekuun.github.io/.idea/keekuun.github.io.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/nodejs-vitest-demo.iml" filepath="$PROJECT_DIR$/.idea/nodejs-vitest-demo.iml" />
     </modules>
   </component>
