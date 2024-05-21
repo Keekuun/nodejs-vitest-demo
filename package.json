@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "Node.js complete test environment using TypeScript, Prisma, PostgreSQL and Vitest.",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "start:dev": "tsx watch src/index.ts",
     "start": "node build/index.js",
