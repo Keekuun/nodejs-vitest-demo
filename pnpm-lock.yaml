@@ -17,6 +17,9 @@ importers:
       express:
         specifier: ^4.18.2
         version: https://registry.npmmirror.com/express/-/express-4.18.2.tgz
+      reflect-metadata:
+        specifier: ^0.2.2
+        version: 0.2.2
     devDependencies:
       '@swc/core':
         specifier: ^1.5.3
@@ -1716,6 +1719,9 @@ packages:
     resolution: {integrity: sha512-hOS089on8RduqdbhvQ5Z37A0ESjsqz6qnRcffsMU3495FuTdqSm+7bhJ29JvIOsBDEEnan5DPu9t3To9VRlMzA==, tarball: https://registry.npmmirror.com/readdirp/-/readdirp-3.6.0.tgz}
     version: 3.6.0
     engines: {node: '>=8.10.0'}
+
+  reflect-metadata@0.2.2:
+    resolution: {integrity: sha512-urBwgfrvVP/eAyXx4hluJivBKzuEbSQs9rKWCrCkbSxNv8mxPcUZKeuoF3Uy4mJl3Lwprp6yy5/39VWigZ4K6Q==}
 
   regexp.prototype.flags@https://registry.npmmirror.com/regexp.prototype.flags/-/regexp.prototype.flags-1.5.1.tgz:
     resolution: {integrity: sha512-sy6TXMN+hnP/wMy+ISxg3krXx7BAtWVO4UouuCN/ziM9UEne0euamVNafDfvC83bRNr95y0V5iijeDQFUNpvrg==, tarball: https://registry.npmmirror.com/regexp.prototype.flags/-/regexp.prototype.flags-1.5.1.tgz}
@@ -3702,6 +3708,8 @@ snapshots:
   readdirp@https://registry.npmmirror.com/readdirp/-/readdirp-3.6.0.tgz:
     dependencies:
       picomatch: https://registry.npmmirror.com/picomatch/-/picomatch-2.3.1.tgz
+
+  reflect-metadata@0.2.2: {}
 
   regexp.prototype.flags@https://registry.npmmirror.com/regexp.prototype.flags/-/regexp.prototype.flags-1.5.1.tgz:
     dependencies:
