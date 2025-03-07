@@ -11,6 +11,9 @@ importers:
       '@prisma/client':
         specifier: 5.7.1
         version: https://registry.npmmirror.com/@prisma/client/-/client-5.7.1.tgz(prisma@https://registry.npmmirror.com/prisma/-/prisma-5.7.1.tgz)
+      class-transformer:
+        specifier: ^0.5.1
+        version: 0.5.1
       dotenv:
         specifier: ^16.3.1
         version: https://registry.npmmirror.com/dotenv/-/dotenv-16.3.1.tgz
@@ -710,6 +713,9 @@ packages:
     resolution: {integrity: sha512-Dr3sfKRP6oTcjf2JmUmFJfeVMvXBdegxB0iVQ5eb2V10uFJUCAS8OByZdVAyVb8xXNz3GjjTgj9kLWsZTqE6kw==, tarball: https://registry.npmmirror.com/chokidar/-/chokidar-3.5.3.tgz}
     version: 3.5.3
     engines: {node: '>= 8.10.0'}
+
+  class-transformer@0.5.1:
+    resolution: {integrity: sha512-SQa1Ws6hUbfC98vKGxZH3KFY0Y1lm5Zm0SY8XX9zbK7FJCyVEac3ATW0RIpwzW+oOfmHE5PMPufDG9hCfoEOMw==}
 
   color-convert@2.0.1:
     resolution: {integrity: sha512-RRECPsj7iu/xb5oKYcsFHSppFNnsj/52OVTRKb4zP5onXwVF3zVmmToNcOfGC+CRDpfK/U584fMg38ZHCaElKQ==}
@@ -2826,6 +2832,8 @@ snapshots:
       readdirp: https://registry.npmmirror.com/readdirp/-/readdirp-3.6.0.tgz
     optionalDependencies:
       fsevents: 2.3.3
+
+  class-transformer@0.5.1: {}
 
   color-convert@2.0.1:
     dependencies:
