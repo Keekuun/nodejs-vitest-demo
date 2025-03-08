@@ -31,8 +31,10 @@
     /* Modules */
     "module": "NodeNext",
     /* Specify what module code is generated. */
-    // "rootDir": "./",                                  /* Specify the root folder within your source files. */
-    // "moduleResolution": "node10",                     /* Specify how TypeScript looks up a file from a given module specifier. */
+    "rootDir": "./",
+    /* Specify the root folder within your source files. */
+    "moduleResolution": "node",
+    /* Specify how TypeScript looks up a file from a given module specifier. */
     "baseUrl": "./",
     /* Specify the base directory to resolve non-relative module names. */
     "paths": {
@@ -124,7 +126,27 @@
 
     /* Completeness */
     // "skipDefaultLibCheck": true,                      /* Skip type checking .d.ts files that are included with TypeScript. */
-    "skipLibCheck": true
+    "skipLibCheck": true,
     /* Skip type checking all .d.ts files. */
+    "declaration": true,
+    /* Generates corresponding '.d.ts' file. */
+    "removeComments": true,
+    /* Do not emit comments to output. */
+    "allowSyntheticDefaultImports": true,
+    /* Allow default imports from modules with no default export. This does not affect code emit, just typechecking. */
+    "sourceMap": true,
+    /* Generates corresponding '.map' file. */
+    "outDir": "./dist",
+    /* Specify an output folder for all emitted files. */
+    "incremental": true,
+    /* Enable incremental compilation, which enables checking for only changed files. */
+    "strictNullChecks": true,
+    /* When type checking, take into account 'null' and 'undefined'. */
+    "noImplicitAny": false,
+    /* Enable error reporting for expressions and declarations with an implied 'any' type. */
+    "strictBindCallApply": false,
+    /* Check that the arguments for 'bind', 'call', and 'apply' methods match the original function. */
+    "noFallthroughCasesInSwitch": false
+    /* Enable error reporting for fallthrough cases in switch statements. */
   }
 }
