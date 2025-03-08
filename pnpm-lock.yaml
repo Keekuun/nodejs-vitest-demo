@@ -14,6 +14,9 @@ importers:
       class-transformer:
         specifier: ^0.5.1
         version: 0.5.1
+      class-validator:
+        specifier: ^0.14.1
+        version: 0.14.1
       dotenv:
         specifier: ^16.3.1
         version: https://registry.npmmirror.com/dotenv/-/dotenv-16.3.1.tgz
@@ -533,6 +536,9 @@ packages:
     resolution: {integrity: sha512-137ypx2lk/wTQbW6An6safu9hXmajAifU/s7szAHLN/FeIm5w7yR0Wkl9fdJMRSHwOn4HLAI0DaB2TOORuhPDg==, tarball: https://registry.npmmirror.com/@types/supertest/-/supertest-6.0.2.tgz}
     version: 6.0.2
 
+  '@types/validator@13.12.2':
+    resolution: {integrity: sha512-6SlHBzUW8Jhf3liqrGGXyTJSIFe4nqlJ5A5KaMZ2l/vbM3Wh3KSybots/wfWVzNLK4D1NZluDlSQIbIEPx6oyA==}
+
   '@vitest/coverage-v8@https://registry.npmmirror.com/@vitest/coverage-v8/-/coverage-v8-1.1.0.tgz':
     resolution: {integrity: sha512-kHQRk70vTdXAyQY2C0vKOHPyQD/R6IUzcGdO4vCuyr4alE5Yg1+Sk2jSdjlIrTTXdcNEs+ReWVM09mmSFJpzyQ==, tarball: https://registry.npmmirror.com/@vitest/coverage-v8/-/coverage-v8-1.1.0.tgz}
     version: 1.1.0
@@ -716,6 +722,9 @@ packages:
 
   class-transformer@0.5.1:
     resolution: {integrity: sha512-SQa1Ws6hUbfC98vKGxZH3KFY0Y1lm5Zm0SY8XX9zbK7FJCyVEac3ATW0RIpwzW+oOfmHE5PMPufDG9hCfoEOMw==}
+
+  class-validator@0.14.1:
+    resolution: {integrity: sha512-2VEG9JICxIqTpoK1eMzZqaV+u/EiwEJkMGzTrZf6sU/fwsnOITVgYJ8yojSy6CaXtO9V0Cc6ZQZ8h8m4UBuLwQ==}
 
   color-convert@2.0.1:
     resolution: {integrity: sha512-RRECPsj7iu/xb5oKYcsFHSppFNnsj/52OVTRKb4zP5onXwVF3zVmmToNcOfGC+CRDpfK/U584fMg38ZHCaElKQ==}
@@ -1313,6 +1322,9 @@ packages:
   jsonc-parser@https://registry.npmmirror.com/jsonc-parser/-/jsonc-parser-3.2.0.tgz:
     resolution: {integrity: sha512-gfFQZrcTc8CnKXp6Y4/CBT3fTc0OVuDofpre4aEeEpSBPV5X5v4+Vmx+8snU7RLPrNHPKSgLxGo9YuQzz20o+w==, tarball: https://registry.npmmirror.com/jsonc-parser/-/jsonc-parser-3.2.0.tgz}
     version: 3.2.0
+
+  libphonenumber-js@1.12.5:
+    resolution: {integrity: sha512-DOjiaVjjSmap12ztyb4QgoFmUe/GbgnEXHu+R7iowk0lzDIjScvPAm8cK9RYTEobbRb0OPlwlZUGTTJPJg13Kw==}
 
   lilconfig@https://registry.npmmirror.com/lilconfig/-/lilconfig-3.0.0.tgz:
     resolution: {integrity: sha512-K2U4W2Ff5ibV7j7ydLr+zLAkIg5JJ4lPn1Ltsdt+Tz/IjQ8buJ55pZAxoP34lqIiwtF9iAvtLv3JGv7CAyAg+g==, tarball: https://registry.npmmirror.com/lilconfig/-/lilconfig-3.0.0.tgz}
@@ -2159,6 +2171,10 @@ packages:
     resolution: {integrity: sha512-DpKm2Ui/xN7/HQKCtpZxoRWBhZ9Z0kqtygG8XCgNQ8ZlDnxuQmWhj566j8fN4Cu3/JmbhsDo7fcAJq4s9h27Ew==, tarball: https://registry.npmmirror.com/validate-npm-package-license/-/validate-npm-package-license-3.0.4.tgz}
     version: 3.0.4
 
+  validator@13.12.0:
+    resolution: {integrity: sha512-c1Q0mCiPlgdTVVVIJIrBuxNicYE+t/7oKeI9MWLj3fh/uq2Pxh/3eeWbVZ4OcGW1TUf53At0njHw5SMdA3tmMg==}
+    engines: {node: '>= 0.10'}
+
   vary@https://registry.npmmirror.com/vary/-/vary-1.1.2.tgz:
     resolution: {integrity: sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==, tarball: https://registry.npmmirror.com/vary/-/vary-1.1.2.tgz}
     version: 1.1.2
@@ -2646,6 +2662,8 @@ snapshots:
       '@types/methods': https://registry.npmmirror.com/@types/methods/-/methods-1.1.4.tgz
       '@types/superagent': https://registry.npmmirror.com/@types/superagent/-/superagent-8.1.1.tgz
 
+  '@types/validator@13.12.2': {}
+
   '@vitest/coverage-v8@https://registry.npmmirror.com/@vitest/coverage-v8/-/coverage-v8-1.1.0.tgz(vitest@https://registry.npmmirror.com/vitest/-/vitest-1.1.0.tgz(@types/node@https://registry.npmmirror.com/@types/node/-/node-20.10.5.tgz))':
     dependencies:
       '@ampproject/remapping': https://registry.npmmirror.com/@ampproject/remapping/-/remapping-2.2.1.tgz
@@ -2834,6 +2852,12 @@ snapshots:
       fsevents: 2.3.3
 
   class-transformer@0.5.1: {}
+
+  class-validator@0.14.1:
+    dependencies:
+      '@types/validator': 13.12.2
+      libphonenumber-js: 1.12.5
+      validator: 13.12.0
 
   color-convert@2.0.1:
     dependencies:
@@ -3424,6 +3448,8 @@ snapshots:
   json-parse-better-errors@https://registry.npmmirror.com/json-parse-better-errors/-/json-parse-better-errors-1.0.2.tgz: {}
 
   jsonc-parser@https://registry.npmmirror.com/jsonc-parser/-/jsonc-parser-3.2.0.tgz: {}
+
+  libphonenumber-js@1.12.5: {}
 
   lilconfig@https://registry.npmmirror.com/lilconfig/-/lilconfig-3.0.0.tgz: {}
 
@@ -4128,6 +4154,8 @@ snapshots:
     dependencies:
       spdx-correct: https://registry.npmmirror.com/spdx-correct/-/spdx-correct-3.2.0.tgz
       spdx-expression-parse: https://registry.npmmirror.com/spdx-expression-parse/-/spdx-expression-parse-3.0.1.tgz
+
+  validator@13.12.0: {}
 
   vary@https://registry.npmmirror.com/vary/-/vary-1.1.2.tgz: {}
 

@@ -70,3 +70,34 @@ function accessorDecorator2(target: Object, name: string, descriptor: PropertyDe
 
 const myClass = new MyClass('myClass')
 myClass.method('method params')
+
+// 自定义装饰器
+// 修改后的装饰器实现
+function defaultValue<T extends Record<string, any>>(defaults: T) {
+    return function <C extends new (...args: any[]) => any>(constructor: C) {
+        return class extends constructor {
+            constructor(...args: any[]) {
+                super(...args)
+                Object.entries(defaults).forEach(([key, value]) => {
+                    if (this[key] === undefined) {
+                        this[key] = value
+                    }
+                })
+            }
+        }
+    }
+}
+
+
+
+@defaultValue({
+    theme: 'dark',
+    language: 'zh-CN'
+})
+class Settings {
+    [key: string]: any
+}
+
+const settings = new Settings()
+console.log('settings.theme', settings.theme) // settings.theme dark
+console.log('settings.language', settings?.language) // settings.theme dark

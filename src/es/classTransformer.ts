@@ -1,4 +1,4 @@
-import {plainToInstance} from 'class-transformer';
+import {instanceToPlain, plainToClassFromExist, plainToInstance} from 'class-transformer';
 import path from 'node:path';
 import {readFileSync} from 'node:fs';
 import {fileURLToPath} from 'node:url';
@@ -44,6 +44,7 @@ export class User {
     firstName: string;
     lastName: string;
     age: number;
+    role?: string
 
     constructor(id: number, firstName: string, lastName: string, age: number) {
         this.id = id;
@@ -75,3 +76,18 @@ try {
 // now：
 const realUsers = plainToInstance(User, usersJson);
 console.log(realUsers[0].isAdult()); // false
+console.log(realUsers[0].role); // false
+
+const defaultUser = new User(1, 'Johny', 'Cage', 27);
+defaultUser.role = 'user'
+
+const mixedUser = plainToClassFromExist(defaultUser, {
+    id: 2,
+    firstName: 'Ismoil',
+    lastName: 'Somoni',
+    age: 50,
+    role: 'admin'
+});
+console.log(mixedUser); // false
+
+console.log(instanceToPlain(mixedUser))
