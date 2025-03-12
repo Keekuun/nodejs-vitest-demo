@@ -35,12 +35,16 @@ function heapSort(arr: number[]): number[] {
     // 从最后一个非叶子节点开始，对每个节点调用 heapify 函数进行堆化
     for (let i = Math.floor(arr.length / 2) - 1; i >= 0; i--) {
         heapify(arr, arr.length, i);
+
+        console.log('1', arr)
     }
 
     // 从数组末尾开始，依次将第一个元素（最大值）与当前元素交换位置，然后对第一个元素进行堆化
     for (let i = arr.length - 1; i > 0; i--) {
         [arr[0], arr[i]] = [arr[i], arr[0]];
         heapify(arr, i, 0);
+
+        console.log(i, arr)
     }
 
     // 返回排序后的数组
