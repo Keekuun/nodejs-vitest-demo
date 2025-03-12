@@ -2,57 +2,21 @@
 
 // 选择排序
 function selectionSort(arr: number[]): number[] {
-  for (let i = 0; i < arr.length; i++) {
-    let minIndex = i;
-    for (let j = i + 1; j < arr.length; j++) {
-      if (arr[j] < arr[minIndex]) {
-        minIndex = j;
-      }
-    }
-    [arr[i], arr[minIndex]] = [arr[minIndex], arr[i]];
-  }
   return arr;
 }
 
 // 冒泡排序
 function bubbleSort(arr: number[]): number[] {
-  for (let i = 0; i < arr.length; i++) {
-    for (let j = i + 1; j < arr.length; j++) {
-      if (arr[i] > arr[j]) {
-        [arr[i], arr[j]] = [arr[j], arr[i]];
-      }
-    }
-  }
   return arr;
 }
 
 // 插入排序
 function insertionSort(arr: number[]): number[] {
-  for (let i = 1; i < arr.length; i++) {
-    let temp = arr[i];
-    let j = i - 1;
-    while (j >= 0 && arr[j] > temp) {
-      arr[j + 1] = arr[j];
-      j--;
-    }
-    arr[j + 1] = temp;
-  }
   return arr;
 }
 
 // 希尔排序
 function shellSort(arr: number[]): number[] {
-  for (let gap = Math.floor(arr.length / 2); gap > 0; gap = Math.floor(gap / 2)){
-    for (let i = gap; i < arr.length; i++) {
-      let temp = arr[i];
-      let j = i - gap;
-      while (j >= 0 && arr[j] > temp) {
-        arr[j + gap] = arr[j];
-        j -= gap;
-      }
-      arr[j + gap] = temp;
-    }
-  }
   return arr;
 }
 
@@ -64,13 +28,9 @@ function quickSort(arr: number[]): number[] {
   const pivot = arr[0];
   const left: number[] = [];
   const right: number[] = [];
-  for (let i = 1; i < arr.length; i++) {
-    if (arr[i] < pivot) {
-      left.push(arr[i]);
-    } else {
-      right.push(arr[i]);
-    }
-  }
+
+  // todo
+
   return [...quickSort(left), pivot, ...quickSort(right)];
 }
 
@@ -86,15 +46,15 @@ function quickSortInPlace(arr: number[], left: number = 0, right: number = arr.l
 function partition(arr: number[], left: number, right: number): number {
   const pivot = arr[right];
   // 循环不变量：[left, i] <= pivot, [i + 1, j) > pivot]
-  let i = left - 1;
+  let i = left;
   for (let j = left; j < right; j++) {
-    if (arr[j] <= pivot) {
+    if (arr[j] < pivot) {
       i++;
       [arr[i], arr[j]] = [arr[j], arr[i]];
     }
   }
-  [arr[i + 1], arr[right]] = [arr[right], arr[i + 1]];
-  return i + 1;
+  [arr[i], arr[right]] = [arr[right], arr[i ]];
+  return i;
 }
 
 // 归并排序
@@ -122,15 +82,6 @@ function merge(left: number[], right: number[]): number[] {
   }
   return [...result, ...left.slice(i), ...right.slice(j)];
 }
-
-// 基数排序
-function radixSort(arr: number[]): number[] {}
-
-// 计数排序
-function countingSort(arr: number[]): number[] {}
-
-// 桶排序
-function bucketSort(arr: number[]): number[] {}
 
 // 堆排序
 function heapSort(arr: number[]): number[] {
@@ -167,7 +118,4 @@ export {
   shellSort,
   quickSort,
   mergeSort,
-  radixSort,
-  countingSort,
-  bucketSort,
 }
