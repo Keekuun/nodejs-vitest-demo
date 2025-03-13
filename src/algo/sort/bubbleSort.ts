@@ -15,9 +15,30 @@ export function bubbleSort(arr: number[]): number[] {
     const n = arr.length;
 
     // Outer loop: Iterate through each element of the array
-    for (let i = 0; i < n; i++) {
+    for (let i = 0; i < n - 1; i++) {
         // Inner loop: Compare adjacent elements and swap if necessary
         for (let j = 0; j < n - i - 1; j++) {
+            // If the current element is greater than the next element, swap them
+            if (arr[j] > arr[j + 1]) {
+                // Swap arr[j] and arr[j + 1]
+                const temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
+        }
+    }
+
+    // Return the sorted array
+    return arr;
+}
+
+export function bubbleSort2(arr: number[]): number[] {
+    const n = arr.length;
+
+    // Outer loop: Iterate through each element of the array
+    for (let i = n - 1; i > 0; i--) {
+        // Inner loop: Compare adjacent elements and swap if necessary
+        for (let j = 0; j < i; j++) {
             // If the current element is greater than the next element, swap them
             if (arr[j] > arr[j + 1]) {
                 // Swap arr[j] and arr[j + 1]
@@ -36,3 +57,4 @@ export function bubbleSort(arr: number[]): number[] {
 const arr = [64, 34, 25, 12, 22, 11, 90];
 // Output the sorted array
 console.log(bubbleSort(arr))
+console.log(bubbleSort2(arr))
