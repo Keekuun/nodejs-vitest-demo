@@ -163,3 +163,9 @@ function partition(arr: number[], left: number, right: number, num: number): num
 const nums = [8, 5, 3, 1, 5, 5, 7, 0, 5, 6, 10, 5], num = 5
 
 console.log(partition(nums, 0, nums.length - 1, num), nums)
+
+// 改进思想
+// 打印样本使用快排调度
+// L < R - 60 小样本使用插入排序
+
+// 在使用封装sort， 如果是 基本数据 使用快排， 如果是引用数据，使用归并排，为了保证稳定性
