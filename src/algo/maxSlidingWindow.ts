@@ -1,6 +1,6 @@
 function maxSlidingWindow(nums: number[], k: number): number[] {
   type MaxHeapItem = { value: number, index: number }
-  const result = []
+  const result: number[] = []
   const maxHeap = new MaxHeap<MaxHeapItem>({compareFn: (a: MaxHeapItem, b: MaxHeapItem) => a.value - b.value})
 
   // 前k个元素
