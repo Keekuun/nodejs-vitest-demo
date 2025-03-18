@@ -1,3 +1,4 @@
+// 防抖函数
 function debounce(fn: Function, delay: number, immediate) {
   let timer: NodeJS.Timeout | null = null
 
