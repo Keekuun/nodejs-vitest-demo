@@ -9,6 +9,9 @@ export function compareVersion(v1: string, v2: string): number {
   while (v1Arr.length < v2Arr.length) {
     v1Arr.push(0);
   }
+  while (v2Arr.length < v1Arr.length) {
+    v2Arr.push(0);
+  }
 
   for (let i = 0; i < v1Arr.length; i++) {
     if (v1Arr[i] > v2Arr[i]) {
@@ -26,3 +29,4 @@ console.log(compareVersion('1.2.0', '1.2')); // 0（正确）
 console.log(compareVersion('1.2', '1.2.0')); // 0（正确）
 console.log(compareVersion('1.2', '1.2.1')); // 0（正确）
 console.log(compareVersion('v1.2.1', 'v1.2.2')); // 0（正确）
+console.log(compareVersion('1.0.1', '1')); // 1（正确）
