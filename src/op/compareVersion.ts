@@ -30,3 +30,5 @@ console.log(compareVersion('1.2', '1.2.0')); // 0（正确）
 console.log(compareVersion('1.2', '1.2.1')); // 0（正确）
 console.log(compareVersion('v1.2.1', 'v1.2.2')); // 0（正确）
 console.log(compareVersion('1.0.1', '1')); // 1（正确）
+console.log(compareVersion('1.9', '1.11')); // -1（正确）
+console.log(compareVersion('9.11', '9.9')); // 1（正确）
