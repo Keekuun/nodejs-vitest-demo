@@ -3,23 +3,31 @@ function debounce(fn: Function, ms: number): Function
 
 function debounce(fn: Function, ms: number = 200, immediate = false): Function {
   let timer: NodeJS.Timeout | null = null
-  let flag = immediate
+  let hasBeenCalled = false
 
   return function (...args: any[]) {
-    if(flag) {
-      fn.apply(this, args)
-      flag = false
+    const context = this
+
+    if (immediate && !hasBeenCalled) {
+      fn.apply(context, args)
+      hasBeenCalled = true
     }
+
     if (timer) {
       clearTimeout(timer)
     }
 
     timer = setTimeout(() => {
-      fn.apply(this, args)
-      flag = immediate
+      if (!immediate) {
+        fn.apply(context, args)
+      } else {
+        hasBeenCalled = false
+      }
+      timer = null
     }, ms)
   }
 }
+
 
 export default debounce
 
