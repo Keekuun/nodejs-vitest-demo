@@ -34,6 +34,43 @@ function subSequences(str: string): string[] {
 
 console.log(subSequences('abc'))
 
+function subSequences2(str: string): string[] {
+  if(str.length === 0) return ['']
+
+
+  const result: string[] = [''];
+  for (const char of str) {
+    const newSubsequences = result.map(seq => seq + char);
+    result.push(...newSubsequences);
+  }
+  return result;
+}
+
+console.log(subSequences2('abc'))
+
+function subSequences3(str: string): string[] {
+  const n = str.length
+  const ans: string[] = []
+
+  dfs(0, '')
+
+  function dfs(i: number, s: string){
+    if(i === n) {
+      ans.push(s)
+      return
+    }
+    // 不选
+    dfs(i+1, s)
+    // 选
+    dfs(i+1, s+str[i])
+  }
+
+  return ans
+}
+
+
+console.log(subSequences3('abc'))
+
 // 全排列：求字符串的全部排列
 function permutations(str: string): string[] {
     const result: string[] = []
