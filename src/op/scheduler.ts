@@ -1,29 +1,48 @@
 export class Scheduler {
-  private readonly queue: any[];
+  private readonly queue: Array<() => Promise<void>>;
   private readonly maxCount: number;
   private runCounts: number;
+
   constructor() {
     this.queue = [];
     this.maxCount = 2;
     this.runCounts = 0;
   }
-  add(promiseCreator: () => Promise<void>) {
+
+  add(promiseCreator: () => Promise<void>): void {
     this.queue.push(promiseCreator);
   }
-  taskStart() {
+
+  taskStart(): void {
     for (let i = 0; i < this.maxCount; i++) {
       this.request();
     }
   }
-  request() {
-    if (!this.queue || !this.queue.length || this.runCounts >= this.maxCount) {
+
+  private request(): void {
+    const queueEmpty = this.queue.length === 0;
+    const atMaxConcurrency = this.runCounts >= this.maxCount;
+
+    if (queueEmpty || atMaxConcurrency) {
       return;
     }
+
     this.runCounts++;
 
-    this.queue.shift()().then(() => {
+    const promiseCreator = this.queue.shift();
+    if (!promiseCreator) {
       this.runCounts--;
-      this.request();
-    });
+      return;
+    }
+
+    promiseCreator()
+      .catch((error) => {
+        // 可选：根据业务需求决定是否重新加入队列或记录日志
+        console.error('Task failed:', error);
+      })
+      .finally(() => {
+        this.runCounts--;
+        this.request();
+      });
   }
 }
