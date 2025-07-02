@@ -82,6 +82,49 @@ function quickSort1(arr: number[]): number[] {
         return i;
     }
 
+    // 上述均为 Lomuto 分区方案的实现
+    // 特点是先把基准放到一边（比如队尾），然后单向扫描。
+
+    /**
+     * Hoare 分区方案的实现
+     * @param arr 数组
+     * @param left 左边界
+     * @param right 右边界
+     * @returns 分割点的索引
+     */
+    function partitionHoare(arr: number[], left: number, right: number): number {
+        // 1. 随机选择一个基准，并且它就待在原地
+        const pivotIndex = randomIndex(left, right);
+        const pivot = arr[pivotIndex];
+        // 2. 初始化双指针
+        let i = left;  // 左指针
+        let j = right; // 右指针
+        // 3. 开始双向扫描，直到指针相遇或交错
+        while (i <= j) {
+            // 从左向右找，找到第一个不小于基准的元素
+            // 注意：这里用 < 而不是 <=，是为了处理 pivot 自身
+            while (arr[i] < pivot) {
+                i++;
+            }
+            // 从右向左找，找到第一个不大于基准的元素
+            while (arr[j] > pivot) {
+                j--;
+            }
+            // 如果 i 和 j 还没有交错
+            if (i <= j) {
+                // 交换这两个“站错位置”的元素
+                swap(arr, i, j);
+                // 交换后，两个指针继续前进，以防因 arr[i] === arr[j] === pivot 而陷入死循环
+                i++;
+                j--;
+            }
+        }
+        // 循环结束后，j 在左边，i 在右边
+        // j 就是左侧分区的终点，i 就是右侧分区的起点
+        // 我们返回 j 作为这次分区的分割点（也可以返回 i，看递归怎么写）
+        return j; // 返回左侧子数组的最后一个索引
+    }
+
     function quickSortRecursive(arr: number[], left: number, right: number) {
         if (left < right) {
             const pivotIndex = partition1(arr, left, right)
