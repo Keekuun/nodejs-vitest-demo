@@ -100,8 +100,19 @@ class Heap {
     }
 }
 
+function heapSort(arr: number[]): number[] {
+    const heap = new Heap(arr);
+
+    const sorted: number[] = [];
+    while (!heap.isEmpty()) {
+        sorted.push(heap.pop());
+    }
+    return sorted.reverse(); // 因为 pop 是从大到小，所以需要反转
+}
+
 const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 const heap = new Heap(arr);
 console.log(heap.toArray())
 heap.pop()
 console.log(heap.toArray())
+console.log(heapSort(arr));
