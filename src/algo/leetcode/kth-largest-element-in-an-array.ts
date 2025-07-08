@@ -79,7 +79,7 @@ class MaxHeap {
   }
 
   // 从父节点i向下开始堆化
-  private siftDown(i: number) {
+  siftDown(i: number) {
     while(true) {
       // 记录最大值下标
       // 因为是大根堆，那么父节点的值应该是最大的，开始维护
