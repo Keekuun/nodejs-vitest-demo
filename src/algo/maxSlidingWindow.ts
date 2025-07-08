@@ -1,3 +1,4 @@
+// https://leetcode.cn/problems/sliding-window-maximum/description/
 function maxSlidingWindow(nums: number[], k: number): number[] {
   type MaxHeapItem = { value: number, index: number }
   const result: number[] = []
