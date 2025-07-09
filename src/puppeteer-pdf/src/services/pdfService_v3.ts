@@ -4,7 +4,7 @@ import puppeteer, { Browser } from 'puppeteer';
 import fs from 'fs/promises';
 import path from 'path';
 import handlebars from 'handlebars';
-import invoiceTemplateSource from '@/templates/invoice_v2.hbs?raw';
+import invoiceTemplateSource from '@/templates/invoice_v3.hbs?raw';
 import {ReportData} from "@/services/pdfService_v2";
 
 // 接口和 Base64 助手函数保持不变
@@ -89,7 +89,25 @@ export const generatePdfFromData = async (
     const pdfBuffer = await page.pdf({
       format: 'A4',
       printBackground: true,
-      margin: { top: '20px', right: '20px', bottom: '20px', left: '20px' },
+      displayHeaderFooter: true,
+      //    这里的 headerTemplate 只是为了占位，实际的页眉内容我们用 position:fixed 在主文档中定义了。
+      headerTemplate: `<div style="font-size: 10px; color: #6c757d; width: 100%; display: flex; justify-content: space-between; padding: 0 30px; box-sizing: border-box; border-bottom: 1px solid #000">
+        页面头部标题
+      </div>`,
+      // 3. 提供页脚模板，Puppeteer 会在这里寻找 .pageNumber 和 .totalPages 并替换它们
+      //    注意：这里的样式是独立的，因为它是在一个隔离的环境中渲染的。
+      footerTemplate: `
+      <div style="font-size: 10px; color: #6c757d; width: 100%; display: flex; justify-content: space-between; padding: 0 30px; box-sizing: border-box;">
+        <span>报告生成日期: ${new Date().toString()}</span>
+        <span>第 <span class="pageNumber"></span> 页 / 共 <span class="totalPages"></span> 页</span>
+      </div>
+    `,
+      margin: {
+        top: '100px',    // 对应CSS中 @page 的 margin-top，为 position:fixed 的页眉留出空间
+        bottom: '60px',  // 对应CSS中 @page 的 margin-bottom，为这里的 footerTemplate 留出空间
+        left: '30px',
+        right: '30px'
+      }
     });
 
     // ✨ 诊断步骤 2: 检查 Buffer 大小
