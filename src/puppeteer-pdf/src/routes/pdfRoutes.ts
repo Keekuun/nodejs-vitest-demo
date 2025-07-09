@@ -1,0 +1,156 @@
+import { Router, Request, Response } from 'express';
+import { generatePdfFromData } from '@/services/pdfService';
+import {generatePdfFromData as generatePdfFromDataV2, ReportData} from '@/services/pdfService_v2';
+import {generateHtmlFromData, generatePdfFromData as generatePdfFromDataV3} from '@/services/pdfService_v3';
+import path from "path";
+
+const router = Router();
+
+router.post('/generate', async (req: Request, res: Response) => {
+  const { billId } = req.body;
+
+  if (!billId) {
+    return res.status(400).json({ success: false, message: 'Missing billId' });
+  }
+
+  try {
+    // ---- 模拟数据库查询 ----
+    const billData = {
+      orderId: billId,
+      customer: { name: '未来科技有限公司' },
+      issueDate: new Date().toLocaleDateString('zh-CN'),
+      items: [
+        { name: '云主机 Pro', quantity: 2, price: '¥199.00', total: '¥398.00' },
+        { name: '对象存储 Plus', quantity: 1, price: '¥50.00', total: '¥50.00' },
+        { name: '数据库服务 Basic', quantity: 1, price: '¥120.00', total: '¥120.00' },
+      ],
+      totalAmount: '¥568.00',
+    };
+    // -------------------------
+
+    const { buffer: pdfBuffer, filePath } = await generatePdfFromData(billData);
+
+    console.log(`file path: ${filePath}. Buffer size: ${pdfBuffer.length} bytes.`);
+    // ---- 模拟上传到云存储并获取URL ----
+    const fileName = `invoice-${billId}-${Date.now()}.pdf`;
+    console.log(`Generated ${fileName}. Buffer size: ${pdfBuffer.length} bytes.`);
+    // 在真实场景中，你会在这里调用 AWS S3, Aliyun OSS等のSDK上传pdfBuffer
+    const mockCdnUrl = `https://your-cdn.com/pdfs/${fileName}`;
+    // ------------------------------------
+
+    // **方案A：返回URL (推荐)**
+    res.status(200).json({ success: true, url: mockCdnUrl, path: filePath });
+
+    /*
+    // **方案B：直接将文件流发给前端下载**
+    // 如果你不想用云存储，也可以这样，但这会占用服务器带宽
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', `attachment; filename=${fileName}`);
+    res.send(pdfBuffer);
+    */
+
+  } catch (error) {
+    console.error(`Error processing bill ${billId}:`, error);
+    res.status(500).json({ success: false, message: 'Internal Server Error' });
+  }
+});
+
+router.get('/generate_v2', async (req, res) => {
+  try {
+    // ✨ Generate a large amount of sample data
+    const items = [];
+    let grandTotal = 0;
+    for (let i = 1; i <= 80; i++) { // Generate 80 items to ensure a long page
+      const quantity = Math.floor(Math.random() * 5) + 1;
+      const price = parseFloat((Math.random() * 100 + 10).toFixed(2));
+      const total = parseFloat((quantity * price).toFixed(2));
+      items.push({
+        id: i,
+        description: `Service or Product #${i} - Lorem ipsum dolor sit amet`,
+        quantity,
+        price,
+        total,
+      });
+      grandTotal += total;
+    }
+    const sampleData: ReportData = {
+      reportTitle: 'Annual Activity Report',
+      orderId: 'ORD-2023-12345',
+      companyName: 'TechInnovate Inc.',
+      customer: {
+        name: 'John Doe Corp.',
+        address: '123 Innovation Drive, Tech City, 12345',
+      },
+      items,
+      grandTotal: parseFloat(grandTotal.toFixed(2)),
+    };
+    const { buffer, filePath } = await generatePdfFromDataV2(sampleData);
+    // Send the PDF back to the client
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', `attachment; filename=${path.basename(filePath)}`);
+    res.send(buffer);
+  } catch (error) {
+    res.status(500).send('An error occurred while generating the PDF.');
+  }
+});
+
+// 抽离出生成示例数据的逻辑，以便复用
+const createSampleData = (): ReportData => {
+  const items = [];
+  let grandTotal = 0;
+  for (let i = 1; i <= 80; i++) {
+    const quantity = Math.floor(Math.random() * 5) + 1;
+    const price = parseFloat((Math.random() * 100 + 10).toFixed(2));
+    const total = parseFloat((quantity * price).toFixed(2));
+    items.push({ id: i, description: `Service or Product #${i} - Lorem ipsum dolor sit amet`, quantity, price, total });
+    grandTotal += total;
+  }
+  return {
+    reportTitle: 'Annual Activity Report',
+    orderId: 'ORD-2023-12345',
+    companyName: 'TechInnovate Inc.',
+    customer: { name: 'John Doe Corp.', address: '123 Innovation Drive, Tech City, 12345' },
+    items,
+    grandTotal: parseFloat(grandTotal.toFixed(2)),
+  };
+};
+
+// ✨ 新的预览路由 ✨
+router.get('/preview', async (req, res) => {
+  try {
+    // 1. 生成同样的示例数据
+    const sampleData = createSampleData();
+
+    // 2. 调用只生成 HTML 的服务函数
+    const htmlContent = await generateHtmlFromData(sampleData);
+
+    // 3. 设置正确的 Content-Type 为 text/html
+    res.setHeader('Content-Type', 'text/html');
+
+    // 4. 将 HTML 字符串发送给浏览器
+    res.send(htmlContent);
+
+  } catch (error) {
+    console.error("HTML preview generation failed:", error);
+    res.status(500).send('An error occurred while generating the HTML preview.');
+  }
+});
+
+router.get('/generate_v3', async (req, res) => {
+  try {
+    const sampleData = createSampleData();
+    const { buffer, filePath } = await generatePdfFromDataV3(sampleData);
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', `attachment; filename=${path.basename(filePath)}`);
+    // 这里发送 `buffer` 是正确的
+    // res.send(buffer);
+    // fix： 解决了res.send返回时，浏览器访问该路由生成的pdf损坏了，是无法打开的问题
+    res.end(buffer)
+  } catch (error) {
+    console.error("PDF generation failed:", error instanceof Error ? error.message : error);
+    res.status(500).send('An error occurred while generating the PDF.');
+  }
+});
+
+
+export default router;

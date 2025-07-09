@@ -1,0 +1,26 @@
+{
+  "name": "puppeteer-pdf",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "vite",
+    "build": "vite build",
+    "start": "node dist/index.cjs",
+    "preview": "vite preview"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.11.0",
+  "dependencies": {
+    "ts-node": "^10.9.2"
+  },
+  "devDependencies": {
+    "vite": "^7.0.3",
+    "vite-plugin-node": "^7.0.0",
+    "vite-tsconfig-paths": "^5.1.4"
+  }
+}
