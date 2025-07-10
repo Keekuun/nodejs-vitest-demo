@@ -103,8 +103,12 @@ router.get('/table/generate', async (req, res) => {
   try {
     const sampleData = createSampleData();
     const {buffer, filePath} = await generateTablePdfFromData(sampleData);
+    // 1. 设置正确的 Content-Type，明确告诉浏览器这是一个PDF文件
     res.setHeader('Content-Type', 'application/pdf');
+    // 2. 设置 Content-Disposition，让浏览器弹出下载框，并指定文件名
     res.setHeader('Content-Disposition', `attachment; filename=${path.basename(filePath)}`);
+    // 3. (可选但推荐) 设置 Content-Length，让浏览器知道文件大小，可以显示下载进度
+    res.setHeader('Content-Length', buffer.length);
     // res.send 会做一些额外的处理，导致浏览器访问该路由生成的pdf损坏了，无法打开
     res.end(buffer)
   } catch (error) {
