@@ -1,8 +1,8 @@
-import puppeteer, { Browser } from 'puppeteer';
+import puppeteer, {Browser} from 'puppeteer';
 import fs from 'fs/promises';
 import path from 'path';
 import handlebars from 'handlebars';
-import invoiceTemplateSource from '@/templates/invoice.hbs?raw';
+import htmlTemplate from '@/templates/invoice.hbs?raw';
 
 // 定义数据类型，享受TypeScript的好处
 interface BillData {
@@ -20,45 +20,14 @@ let compiledTemplate: handlebars.TemplateDelegate | null = null;
 async function getTemplate() {
   if (!compiledTemplate) {
     // const templateHtml = await fs.readFile(templatePath, 'utf-8');
-    compiledTemplate = handlebars.compile(invoiceTemplateSource);
+    compiledTemplate = handlebars.compile(htmlTemplate);
   }
   return compiledTemplate;
 }
 
-export const generatePdfFromData1 = async (data: BillData): Promise<Buffer> => {
-  const template = await getTemplate();
-  const finalHtml = template(data);
-
-  let browser: Browser | null = null;
-  try {
-    browser = await puppeteer.launch({
-      headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
-    });
-
-    const page = await browser.newPage();
-    await page.setContent(finalHtml, { waitUntil: 'networkidle0' });
-
-    const pdfBuffer = await page.pdf({
-      format: 'A4',
-      printBackground: true,
-      margin: { top: '20mm', right: '20mm', bottom: '20mm', left: '20mm' },
-    });
-
-    return pdfBuffer;
-  } catch (error) {
-    console.error('PDF generation failed:', error);
-    throw new Error('Could not generate PDF.');
-  } finally {
-    if (browser) {
-      await browser.close();
-    }
-  }
-};
-
 export const generatePdfFromData = async (
   data: BillData
-): Promise<{ buffer: Buffer; filePath: string }> => {
+): Promise<{ buffer: Uint8Array<ArrayBufferLike>; filePath: string }> => {
   const template = await getTemplate();
   const finalHtml = template(data);
   let browser: Browser | null = null;

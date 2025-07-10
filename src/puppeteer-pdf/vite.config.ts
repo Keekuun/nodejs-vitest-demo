@@ -1,5 +1,3 @@
-// vite.config.ts
-
 import { defineConfig } from 'vite';
 import { VitePluginNode } from 'vite-plugin-node';
 import tsconfigPaths from 'vite-tsconfig-paths';
@@ -17,7 +15,7 @@ export default defineConfig({
   server: {
     // Vite Dev Server 的配置
     host: 'localhost', // 监听的地址
-    port: 3000 // 监听的端口
+    port: 3001 // 监听的端口
   },
 
   plugins: [
@@ -25,14 +23,23 @@ export default defineConfig({
     tsconfigPaths(),
     // VitePluginNode 的核心配置
     ...VitePluginNode({
-      // 告诉插件我们的 Express App 在哪里
+      // The adapter to use. Defaults to 'express'.
+      // Other options include 'koa', 'fastify', 'nest', or a custom function.
       adapter: 'express',
-      // 我们应用的主入口文件
+      // The path to you app's main file.
       appPath: 'src/index.ts',
-      // 导出的 Express app 的变量名
-      exportName: 'app',
-      // TypeScript 转译器选项，'swc' 更快，'esbuild' 也可以
-      tsCompiler: 'swc',
+      // The name of the exported app in your app's main file.
+      exportName: 'viteNodeApp',
+      // Optional, default: 'esbuild'
+      // The TypeScript compiler you want to use
+      // by default this plugin is using vite default ts compiler which is esbuild
+      // 'swc' compiler is supported to use as well for frameworks
+      // like Nestjs (esbuild dont support 'emitDecoratorMetadata' yet)
+      // you need to INSTALL `@swc/core` as dev dependency if you want to use swc
+      tsCompiler: 'esbuild', // or 'swc'
+      // Optional, default: false
+      // if you want to reload your app on file changes, set this to true, rebounce delay is 500ms
+      reloadAppOnFileChange: true,
     })
   ],
 

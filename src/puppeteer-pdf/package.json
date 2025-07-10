@@ -2,12 +2,11 @@
   "name": "puppeteer-pdf",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.ts",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "vite",
-    "build": "vite build",
+    "build": "tsc --project tsconfig.server.json && vite build",
     "start": "node dist/index.cjs",
     "preview": "vite preview"
   },
