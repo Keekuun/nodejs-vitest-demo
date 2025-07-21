@@ -25,6 +25,21 @@ function quickSort1(arr: number[]): number[] {
     const n = arr.length
     if (n < 2) return arr
 
+    /**
+     * Lomuto 分区方案的实现
+     * 将数组按照基准值划分，所有小于基准值的元素移动到基准值的左边，所有大于基准值的元素移动到基准值的右边
+     * 选择最后一个元素作为基准值，此实现方式下，如果选择第一个元素作为基准值，需要在开始时将其与最后一个元素交换位置
+     * 此函数的核心是选择基准值并围绕它进行分区，基准值的选择和分区过程决定了快速排序的性能
+     * 时间复杂度最差情况下为O(n^2)，例如当数组已经排序时
+     * Lomuto 分区返回的是基准值的最终位置 i，这个位置是数组中基准值应该放置的位置。
+     * 递归调用时，对分区后的两个子数组进行排序：
+     * 左子数组：low 到 pivot_index - 1
+     * 右子数组：pivot_index + 1 到 high
+     * @param arr 待划分的数组
+     * @param left 数组的起始索引
+     * @param right 数组的结束索引
+     * @returns 基准值的最终索引
+     */
     function partition(arr: number[], left: number, right: number): number {
         // 选择 最后一个元素作为基准
         // 如果选择 第一个元素作为基准， 怎么改？
@@ -87,10 +102,14 @@ function quickSort1(arr: number[]): number[] {
 
     /**
      * Hoare 分区方案的实现
+     * Hoare 分区返回的是指针 j，表示分区完成的位置。这个位置并不一定是基准值的位置，而是左右两部分的交界点。
+     * 递归调用时，对分区后的两个子数组进行排序：
+     * 左子数组：low 到 pivot_index
+     * 右子数组：pivot_index + 1 到 high
      * @param arr 数组
      * @param left 左边界
      * @param right 右边界
-     * @returns 分割点的索引
+     * @returns 分割点的索引，
      */
     function partitionHoare(arr: number[], left: number, right: number): number {
         // 1. 随机选择一个基准，并且它就待在原地
@@ -122,13 +141,17 @@ function quickSort1(arr: number[]): number[] {
         // 循环结束后，j 在左边，i 在右边
         // j 就是左侧分区的终点，i 就是右侧分区的起点
         // 我们返回 j 作为这次分区的分割点（也可以返回 i，看递归怎么写）
-        return j; // 返回左侧子数组的最后一个索引
+        return i; // 返回左侧子数组的最后一个索引
     }
 
     function quickSortRecursive(arr: number[], left: number, right: number) {
         if (left < right) {
-            const pivotIndex = partition1(arr, left, right)
-            quickSortRecursive(arr, left, pivotIndex - 1)
+            // Lomuto 分区方案: 注意递归的索引
+            // const pivotIndex = partition1(arr, left, right)
+            // quickSortRecursive(arr, left, pivotIndex - 1)
+            // Hoare 分区方案: 注意递归的索引
+            const pivotIndex = partitionHoare(arr, left, right)
+            quickSortRecursive(arr, left, pivotIndex)
             quickSortRecursive(arr, pivotIndex + 1, right)
         }
     }
@@ -181,8 +204,8 @@ function quickSort2(arr: number[]): number[] {
 
 const arr = [8, 5, 3, 1, 5, 5, 7, 0, 5, 6, 10, 5]
 // console.log(quickSort(arr))
-// console.log(quickSort1(arr))
-console.log(quickSort2(arr))
+console.log(quickSort1(arr))
+// console.log(quickSort2(arr))
 
 // 荷兰旗问题
 // 数组划分问题： arr 和 num, num 在 arr 中划分出 小于 num 的 [left, less] 大于 num 的 [more, right] 等于 num 的 [less, more]
