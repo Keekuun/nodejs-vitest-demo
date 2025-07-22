@@ -2,106 +2,146 @@
 // 大顶堆、小顶堆
 // 优先队列、堆排序、获取最大的K个数、获取最小的K个数
 
-class Heap {
-    // push pop peek size isEmpty
-    readonly #maxHeap: number[]
+// 大根堆实现
+class MaxHeap<T> {
 
-    constructor(arr: number[]) {
-        this.#maxHeap = [...arr];
-
-        for (let i = this.#parent(this.#maxHeap.length - 1); i >= 0; i--) {
-            this.#siftDown(i);
+    constructor(private readonly data: T[], private readonly compareFn?: (a: T, b: T) => number) {
+        if (data.length > 0) {
+            // 堆化
+            for (let i = this.parent(this.size - 1); i >= 0; i--) {
+                this.siftDown(i);
+            }
         }
     }
 
-    // 获取父节点
-    #parent(i: number): number {
+    private compare(a: T, b: T): number {
+        if (this.compareFn) {
+            return this.compareFn(a, b);
+        }
+        if (typeof a === 'number' && typeof b === 'number') {
+            return a - b;
+        }
+        throw Error('params should be number data or need compareFn');
+    }
+
+    private parent(i: number): number {
         return Math.floor((i - 1) / 2);
     }
 
-    // 获取左子节点
-    #left(i: number): number {
+    private left(i: number): number {
         return i * 2 + 1;
     }
 
-    // 获取右子节点
-    #right(i: number): number {
+    private right(i: number): number {
         return i * 2 + 2;
     }
 
-    #siftDown(i: number) {
-        const n = this.#maxHeap.length;
+    private swap(i: number, j: number) {
+        [this.data[i], this.data[j]] = [this.data[j], this.data[i]];
+    }
+
+    private siftUp(i: number) {
+        while (i > 0) {
+            const pi = this.parent(i);
+            if (pi < 0 || this.compare(this.data[i], this.data[pi]) <= 0) {
+                break;
+            }
+            this.swap(pi, i);
+            i = pi;
+        }
+    }
+
+    private siftDown(i: number) {
         while (true) {
-            let maxIndex = i;
-            if (this.#left(i) < n && this.#maxHeap[this.#left(i)] > this.#maxHeap[maxIndex]) {
-                maxIndex = this.#left(i);
-            }
-            if (this.#right(i) < n && this.#maxHeap[this.#right(i)] > this.#maxHeap[maxIndex]) {
-                maxIndex = this.#right(i);
-            }
+            let ma = i;
+            const li = this.left(i);
+            const ri = this.right(i);
 
-            if (maxIndex === i) break;
+            if (li < this.size && this.compare(this.data[li], this.data[ma]) > 0) ma = li;
+            if (ri < this.size && this.compare(this.data[ri], this.data[ma]) > 0) ma = ri;
+            if (ma === i) break;
 
-            [this.#maxHeap[i], this.#maxHeap[maxIndex]] = [this.#maxHeap[maxIndex], this.#maxHeap[i]];
-            i = maxIndex;
+            this.swap(ma, i);
+            i = ma;
         }
     }
 
-    #siftUp(i: number) {
-        while (i > 0 && this.#maxHeap[this.#parent(i)] < this.#maxHeap[i]) {
-            [this.#maxHeap[i], this.#maxHeap[this.#parent(i)]] = [this.#maxHeap[this.#parent(i)], this.#maxHeap[i]];
-            i = this.#parent(i);
-        }
+    get size(): number {
+        return this.data.length;
     }
 
-    push(val: number) {
-        this.#maxHeap.push(val);
-        this.#siftUp(this.#maxHeap.length - 1);
+    get peek(): T {
+        if (this.size === 0) {
+            throw new RangeError('Heap is empty');
+        }
+        return this.data[0];
     }
 
-    pop(): number {
-        if (this.#maxHeap.length === 0) {
-            throw new Error('heap underflow');
+    public push(v: T) {
+        this.data.push(v);
+        this.siftUp(this.size - 1);
+    }
+
+    public pop(): T {
+        if (this.size === 0) {
+            throw new RangeError('Heap is empty');
         }
-
-        [this.#maxHeap[0], this.#maxHeap[this.#maxHeap.length - 1]] = [this.#maxHeap[this.#maxHeap.length - 1], this.#maxHeap[0]];
-        const max = this.#maxHeap.pop()!;
-        this.#siftDown(0);
-
+        this.swap(0, this.size - 1);
+        const max = this.data.pop()!;
+        this.siftDown(0);
         return max;
     }
+    /**
+     * 从堆中移除指定的值
+     * @param value 要移除的值
+     * @returns 如果成功移除返回 true，否则返回 false
+     */
+    public remove(value: T): boolean {
+        // 利用 compare 来查找值
+        const index = this.data.findIndex((v) => this.compare(v, value) === 0);
+        if (index === -1) return false;
 
-    peek(): number {
-        if (this.#maxHeap.length === 0) {
-            throw new Error('heap underflow');
+        this.swap(index, this.size - 1);
+        this.data.pop();
+
+        if (index === this.size) return true;
+
+        this.siftDown(index);
+        this.siftUp(index);
+        return true;
+    }
+
+    public isEmpty(): boolean {
+        return this.size === 0;
+    }
+
+    public toArray(): T[] {
+        return [...this.data];
+    }
+
+    public clear(): void {
+        this.data.length = 0;
+    }
+
+    public contains(value: T): boolean {
+        return this.data.some((v) => this.compare(v, value) === 0);
+    }
+
+    public indexOf(value: T): number {
+        return this.data.findIndex((v) => this.compare(v, value) === 0);
+    }
+    public toSortedArray(): T[] {
+        const heapCopy = new MaxHeap<T>([...this.data], this.compareFn);
+        const sorted: T[] = [];
+        while (!heapCopy.isEmpty()) {
+            sorted.push(heapCopy.pop());
         }
-
-        return this.#maxHeap[0];
-    }
-
-    size(): number {
-        return this.#maxHeap.length;
-    }
-
-    isEmpty(): boolean {
-        return this.#maxHeap.length === 0;
-    }
-
-    toArray(): number[] {
-        return [...this.#maxHeap];
-    }
-
-    toString(): string {
-        return this.#maxHeap.toString();
-    }
-
-    clear() {
-        this.#maxHeap.length = 0;
+        return sorted.reverse();
     }
 }
 
 function heapSort(arr: number[]): number[] {
-    const heap = new Heap(arr);
+    const heap = new MaxHeap(arr);
 
     const sorted: number[] = [];
     while (!heap.isEmpty()) {
@@ -111,7 +151,7 @@ function heapSort(arr: number[]): number[] {
 }
 
 const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-const heap = new Heap(arr);
+const heap = new MaxHeap(arr);
 console.log(heap.toArray())
 heap.pop()
 console.log(heap.toArray())
