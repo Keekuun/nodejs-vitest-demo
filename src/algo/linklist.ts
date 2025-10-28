@@ -10,9 +10,10 @@ class ListNode {
 
 const arr = [1, 2, 3, 4, 5]
 
-const head = new ListNode(0)
+let head = new ListNode(0)
 for (const number of arr) {
     head.next = new ListNode(number)
+  head = head.next
 }
 
 class LinkedList {

@@ -76,34 +76,41 @@ function isValidBST2(root: TreeNode | null): boolean {
 // 关键点：完全二叉树除了最后一层外，其他层都是满的，并且最后一层的节点从左到右依次排列。
 // 层序遍历 BFS
 function isCompleteTree(root: TreeNode | null): boolean {
-    if (!root) return true;
+  if (!root) return true;
 
-    let queue: (TreeNode | null)[] = [root];
-    // 标记当前层是否已经遇到叶子节点
-    let leafEnd = false;
-    let left: TreeNode | null = null
-    let right: TreeNode | null = null
-    while (queue.length) {
-        let node = queue.shift()!;
-        left = node?.left
-        right = node?.right
+  const queue: (TreeNode | null)[] = [root];
+  let hasNullChild = false; // 标记是否已经遇到空子节点
 
-        if (!left && right) return false
-        if (leafEnd && (left || right)) return false
+  while (queue.length) {
+    const node = queue.shift()!;
 
-        if (!left) {
-            queue.push(left)
-        }
-        if (!right) {
-            queue.push(right)
-        }
-        if (!left || !right) {
-            leafEnd = true
-        }
+    // 如果已经遇到空子节点，但当前节点有子节点，则不是完全二叉树
+    if (hasNullChild && (node.left || node.right)) {
+      return false;
     }
 
-    return true;
+    // 如果左子节点为空但右子节点不为空，则不是完全二叉树
+    if (!node.left && node.right) {
+      return false;
+    }
+
+    // 将子节点加入队列
+    if (node.left) {
+      queue.push(node.left);
+    } else {
+      hasNullChild = true; // 标记遇到空子节点
+    }
+
+    if (node.right) {
+      queue.push(node.right);
+    } else {
+      hasNullChild = true; // 标记遇到空子节点
+    }
+  }
+
+  return true;
 }
+
 
 // 判断是否是满二叉树
 // 关键点：节点数 = 2^h - 1，其中 h 为高度。

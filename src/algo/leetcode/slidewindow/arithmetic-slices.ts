@@ -71,6 +71,6 @@ function numberOfArithmeticSlices2(nums: number[]): number {
   return res
 };
 
-console.log(numberOfArithmeticSlices([1,2,3,4]))
-console.log(numberOfArithmeticSlices([1,2,3,4,5]))
-console.log(numberOfArithmeticSlices([1,2,3, 6]))
+console.log(numberOfArithmeticSlices1([1,2,3,4]))
+console.log(numberOfArithmeticSlices1([1,2,3,4,5]))
+console.log(numberOfArithmeticSlices1([1,2,3, 6]))
